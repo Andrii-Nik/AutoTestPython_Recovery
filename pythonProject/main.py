@@ -1,16 +1,46 @@
-# This is a sample Python script.
+from selenium import webdriver
+import time
+import math
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+try:
+    link = "http://suninjuly.github.io/get_attribute.html"
+    browser = webdriver.Chrome()
+    browser.get(link)
+
+    def calc(x):
+        return str(math.log(abs(12 * math.sin(int(x)))))
+
+    x_element = browser.find_element_by_id("treasure")
+    x = x_element.get_attribute('valuex')
+    y = calc(x)
+
+    input1 = browser.find_element_by_id('answer')
+    input1.send_keys(y)
+    input2 = browser.find_element_by_id('robotCheckbox')
+    input2.click()
+    input3 = browser.find_element_by_id('robotsRule')
+    input3.click()
+    input4 = browser.find_element_by_class_name('btn.btn-default')
+    input4.click()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
+finally:
+    # ожидание чтобы визуально оценить результаты прохождения скрипта
+    time.sleep(10)
+    # закрываем браузер после всех манипуляций
+    browser.quit()
+class TestMainPage1():
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    # вызываем фикстуру в тесте, передав ее как параметр
+    def test_guest_should_see_login_link(self, browser):
+        print("start test1")
+        browser.get(link)
+        browser.find_element_by_css_selector("#login_link")
+        print("finish test1")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        print("start test2")
+        browser.get(link)
+        browser.find_element_by_css_selector(".basket-mini .btn-group > a")
+        print("finish test2")
